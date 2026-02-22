@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CareerForge — Candidate Value Proposition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0c;
+    --surface: #111116;
+    --surface2: #18181f;
+    --border: rgba(255,255,255,0.07);
+    --border-bright: rgba(255,255,255,0.14);
+    --forge: #f97316;
+    --forge-dim: rgba(249,115,22,0.15);
+    --forge-glow: rgba(249,115,22,0.4);
+    --ice: #38bdf8;
+    --ice-dim: rgba(56,189,248,0.1);
+    --text: #f0f0f2;
+    --muted: #6b6b7a;
+    --subtle: #3a3a47;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* BACKGROUND GLOW BLOBS */
+  .bg-blob {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .bg-blob-1 { width: 600px; height: 600px; background: rgba(249,115,22,0.07); top: -200px; right: -150px; }
+  .bg-blob-2 { width: 500px; height: 500px; background: rgba(56,189,248,0.05); bottom: 100px; left: -200px; }
+
+  main { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 60px 28px 100px; }
+
+  /* ── HEADER ── */
+  .header { text-align: center; padding: 60px 0 70px; }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.15em;
+    color: var(--forge); border: 1px solid var(--forge-dim);
+    background: var(--forge-dim); padding: 6px 16px; border-radius: 100px;
+    margin-bottom: 28px; text-transform: uppercase;
+    animation: fadeUp 0.6s ease both;
+  }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--forge); animation: pulse 2s ease infinite; }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(42px, 8vw, 72px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    animation: fadeUp 0.6s 0.1s ease both;
+    margin-bottom: 8px;
+  }
+  h1 .accent { color: var(--forge); font-style: italic; }
+
+  .tagline {
+    font-size: 17px; color: var(--muted); max-width: 520px; margin: 20px auto 0;
+    animation: fadeUp 0.6s 0.2s ease both; font-weight: 400;
+  }
+
+  .header-meta {
+    display: flex; justify-content: center; gap: 24px; margin-top: 32px; flex-wrap: wrap;
+    animation: fadeUp 0.6s 0.3s ease both;
+  }
+  .meta-chip {
+    font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted);
+    border: 1px solid var(--border); padding: 5px 14px; border-radius: 100px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px; background: linear-gradient(90deg, transparent, var(--border-bright), transparent);
+    margin: 0 0 60px;
+  }
+
+  /* ── SECTION LABELS ── */
+  .section-label {
+    font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.2em;
+    color: var(--muted); text-transform: uppercase; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* ── PROBLEM STRIP ── */
+  .problem-strip {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 36px 40px; margin-bottom: 56px;
+    position: relative; overflow: hidden;
+  }
+  .problem-strip::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: linear-gradient(180deg, var(--forge), transparent);
+  }
+  .problem-strip h2 {
+    font-family: 'DM Serif Display', serif; font-size: 24px; margin-bottom: 12px;
+    color: var(--text);
+  }
+  .problem-strip p { color: var(--muted); font-size: 15px; max-width: 680px; line-height: 1.75; }
+  .pain-points { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+  .pain {
+    font-family: 'DM Mono', monospace; font-size: 11px; color: #ef4444;
+    background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2);
+    padding: 5px 14px; border-radius: 100px;
+  }
+
+  /* ── FEATURE GRID ── */
+  .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 56px; }
+
+  .feature-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 28px 28px 24px;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .feature-card:hover { border-color: var(--border-bright); transform: translateY(-2px); }
+  .feature-card::before {
+    content: ''; position: absolute; inset: 0; opacity: 0;
+    background: radial-gradient(circle at 30% 20%, var(--forge-dim), transparent 70%);
+    transition: opacity 0.3s;
+  }
+  .feature-card:hover::before { opacity: 1; }
+
+  .feature-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: var(--forge-dim); border: 1px solid rgba(249,115,22,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; margin-bottom: 16px;
+  }
+  .feature-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 8px; letter-spacing: -0.01em; }
+  .feature-card p { font-size: 13.5px; color: var(--muted); line-height: 1.65; }
+
+  .tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .tag {
+    font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.04em;
+    color: var(--forge); background: var(--forge-dim); border: 1px solid rgba(249,115,22,0.2);
+    padding: 3px 10px; border-radius: 100px;
+  }
+  .tag.ice { color: var(--ice); background: var(--ice-dim); border-color: rgba(56,189,248,0.2); }
+
+  /* ── BYOK HIGHLIGHT ── */
+  .byok-card {
+    background: var(--surface2); border: 1px solid var(--border-bright);
+    border-radius: 16px; padding: 36px 40px; margin-bottom: 56px;
+    display: flex; align-items: flex-start; gap: 28px;
+  }
+  .byok-icon { font-size: 40px; flex-shrink: 0; margin-top: 4px; }
+  .byok-card h2 { font-family: 'DM Serif Display', serif; font-size: 22px; margin-bottom: 10px; }
+  .byok-card p { color: var(--muted); font-size: 14.5px; line-height: 1.75; }
+
+  .provider-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+  .provider {
+    font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted);
+    border: 1px solid var(--border); background: var(--surface);
+    padding: 4px 12px; border-radius: 100px;
+  }
+
+  /* ── PIPELINE VISUALIZATION ── */
+  .pipeline-section { margin-bottom: 56px; }
+  .pipeline-visual {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 36px; overflow-x: auto;
+  }
+  .pipeline-label { font-size: 13px; color: var(--muted); margin-bottom: 24px; font-family: 'DM Mono', monospace; }
+  .pipeline-flow {
+    display: flex; align-items: center; gap: 0; min-width: max-content;
+  }
+  .pipeline-node {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 16px; text-align: center; min-width: 100px;
+  }
+  .pipeline-node .node-name { font-size: 13px; font-weight: 500; margin-bottom: 3px; }
+  .pipeline-node .node-role { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
+  .pipeline-node.brian { border-color: rgba(249,115,22,0.3); }
+  .pipeline-node.rita, .pipeline-node.marcus { border-color: rgba(56,189,248,0.3); }
+  .pipeline-node.robin { border-color: rgba(168,85,247,0.3); }
+  .pipeline-node.ryan { border-color: rgba(34,197,94,0.4); background: rgba(34,197,94,0.05); }
+  .pipeline-arrow { color: var(--subtle); font-size: 18px; padding: 0 8px; flex-shrink: 0; }
+  .pipeline-parallel {
+    display: flex; flex-direction: column; gap: 8px; position: relative;
+  }
+  .parallel-label {
+    font-family: 'DM Mono', monospace; font-size: 9px; color: var(--muted);
+    text-align: center; letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  /* ── ROADMAP ── */
+  .roadmap { margin-bottom: 56px; }
+  .roadmap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 580px) { .roadmap-grid { grid-template-columns: 1fr; } }
+
+  .roadmap-card {
+    border-radius: 14px; padding: 28px;
+    border: 1px solid var(--border); position: relative; overflow: hidden;
+  }
+  .roadmap-card.now { background: var(--surface); }
+  .roadmap-card.next {
+    background: linear-gradient(135deg, var(--surface2), rgba(249,115,22,0.04));
+    border-color: rgba(249,115,22,0.2);
+  }
+  .roadmap-card.future {
+    background: linear-gradient(135deg, var(--surface2), rgba(56,189,248,0.04));
+    border-color: rgba(56,189,248,0.15);
+  }
+  .roadmap-card.horizon { background: var(--surface); border-style: dashed; }
+
+  .roadmap-tag {
+    font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; padding: 3px 10px; border-radius: 100px;
+    margin-bottom: 16px; display: inline-block;
+  }
+  .now .roadmap-tag { color: #22c55e; background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.2); }
+  .next .roadmap-tag { color: var(--forge); background: var(--forge-dim); border: 1px solid rgba(249,115,22,0.2); }
+  .future .roadmap-tag { color: var(--ice); background: var(--ice-dim); border: 1px solid rgba(56,189,248,0.2); }
+  .horizon .roadmap-tag { color: var(--muted); background: var(--surface2); border: 1px solid var(--border); }
+
+  .roadmap-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 10px; }
+  .roadmap-card ul { list-style: none; padding: 0; }
+  .roadmap-card ul li {
+    font-size: 13.5px; color: var(--muted); padding: 4px 0;
+    padding-left: 16px; position: relative;
+  }
+  .roadmap-card ul li::before { content: '–'; position: absolute; left: 0; color: var(--subtle); }
+
+  /* ── STACK ── */
+  .stack-section { margin-bottom: 56px; }
+  .stack-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .stack-pill {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    border: 1px solid var(--border); background: var(--surface);
+    padding: 6px 14px; border-radius: 8px; color: var(--text);
+    transition: border-color 0.2s;
+  }
+  .stack-pill:hover { border-color: var(--border-bright); }
+  .stack-pill span { color: var(--muted); margin-right: 6px; }
+
+  /* ── FOOTER CTA ── */
+  .footer-cta {
+    text-align: center; padding: 60px 0 0;
+    border-top: 1px solid var(--border);
+  }
+  .footer-cta h2 { font-family: 'DM Serif Display', serif; font-size: 32px; margin-bottom: 12px; }
+  .footer-cta p { color: var(--muted); font-size: 15px; margin-bottom: 28px; }
+  .footer-links { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+  .footer-link {
+    font-family: 'DM Mono', monospace; font-size: 12px; letter-spacing: 0.05em;
+    padding: 10px 24px; border-radius: 10px; text-decoration: none;
+    transition: all 0.2s;
+  }
+  .footer-link.primary {
+    background: var(--forge); color: #fff;
+  }
+  .footer-link.primary:hover { background: #ea6c0a; }
+  .footer-link.secondary {
+    border: 1px solid var(--border); color: var(--muted); background: var(--surface);
+  }
+  .footer-link.secondary:hover { border-color: var(--border-bright); color: var(--text); }
+
+  .builder-sig {
+    margin-top: 40px; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--subtle);
+  }
+  .builder-sig a { color: var(--forge); text-decoration: none; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* Staggered cards */
+  .feature-card:nth-child(1) { animation: fadeUp 0.5s 0.1s ease both; }
+  .feature-card:nth-child(2) { animation: fadeUp 0.5s 0.2s ease both; }
+  .feature-card:nth-child(3) { animation: fadeUp 0.5s 0.3s ease both; }
+  .feature-card:nth-child(4) { animation: fadeUp 0.5s 0.4s ease both; }
+  .feature-card:nth-child(5) { animation: fadeUp 0.5s 0.5s ease both; }
+  .feature-card:nth-child(6) { animation: fadeUp 0.5s 0.6s ease both; }
+
+  @media (max-width: 600px) {
+    .byok-card { flex-direction: column; gap: 16px; padding: 28px; }
+    .pipeline-flow { gap: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="bg-blob bg-blob-1"></div>
+<div class="bg-blob bg-blob-2"></div>
+
+<main>
+
+  <!-- ── HEADER ── -->
+  <header class="header">
+    <div class="badge">
+      <span class="badge-dot"></span>
+      Candidate Value Summary · Feb 2026
+    </div>
+    <h1>Career<span class="accent">Forge</span></h1>
+    <p class="tagline">End-to-end AI job application automation -- from JD to tailored resume, company intel, contacts, and voice interview prep.</p>
+    <div class="header-meta">
+      <span class="meta-chip">Web App · Live</span>
+      <span class="meta-chip">Telegram · Multi-Agent</span>
+      <span class="meta-chip">Council Mode · In Progress</span>
+      <span class="meta-chip">BYOK · Freemium</span>
+    </div>
+  </header>
+
+  <div class="divider"></div>
+
+  <!-- ── PROBLEM ── -->
+  <div class="problem-strip">
+    <h2>The job hunt is broken for technical candidates</h2>
+    <p>Applying for 20+ roles a day while tailoring every resume, researching every company, finding the right contacts, and preparing for voice interviews -- it's a full-time job on top of your full-time job. Most tools handle one piece. CareerForge automates the entire pipeline.</p>
+    <div class="pain-points">
+      <span class="pain">Generic resumes get auto-rejected</span>
+      <span class="pain">Company research takes 2+ hours per application</span>
+      <span class="pain">No time for personalized outreach</span>
+      <span class="pain">Interview prep is isolated from context</span>
+      <span class="pain">35+ ATS systems, each with different quirks</span>
+    </div>
+  </div>
+
+  <!-- ── CORE MODULES ── -->
+  <div class="section-label">Core Platform · careerforge-command-center</div>
+  <div class="feature-grid">
+
+    <div class="feature-card">
+      <div class="feature-icon">📄</div>
+      <h3>ResumeForge</h3>
+      <p>Proprietary multi-pass pipeline that selects and formats the most relevant experience from your master resume for any given JD. Output is a perfectly formatted, single-page PDF -- server-side rendered, instant download.</p>
+      <div class="tag-list">
+        <span class="tag">Proprietary pipeline</span>
+        <span class="tag">Single-page PDF</span>
+        <span class="tag">ATS-tuned</span>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">✉️</div>
+      <h3>CoverForge</h3>
+      <p>Auto-extracts company and role from a pasted JD -- no manual entry. Same proprietary pipeline as ResumeForge. Tone and structure adapt dynamically to industry and seniority level detected in the JD.</p>
+      <div class="tag-list">
+        <span class="tag">Auto-extract JD</span>
+        <span class="tag">Tone-aware</span>
+        <span class="tag">PDF output</span>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <h3>ForgeScore</h3>
+      <p>100-point resume scoring across Experience (40), Technical Skills (30), Education (15), Projects (15). Gives specific, actionable improvement suggestions -- not vague "quantify your impact" advice.</p>
+      <div class="tag-list">
+        <span class="tag">4-dimension scoring</span>
+        <span class="tag">Actionable gaps</span>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">🏢</div>
+      <h3>Company Intelligence</h3>
+      <p>Live web scraping via Firecrawl. Returns a Health Score (0–100), H1B sponsorship trend, layoff history timeline, Glassdoor-style sentiment breakdown, funding runway, hiring cycle predictions, and AI-generated red/green flags.</p>
+      <div class="tag-list">
+        <span class="tag">Firecrawl</span>
+        <span class="tag">H1B tracker</span>
+        <span class="tag">Layoff history</span>
+        <span class="tag">Health score</span>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">🤝</div>
+      <h3>Contact Finder</h3>
+      <p>Generates 5–8 realistic target contacts (recruiters, HMs, ICs, directors) with LinkedIn search hints, email pattern heuristics, priority ranking, and ready-to-send personalized outreach templates for LinkedIn, email, and follow-up.</p>
+      <div class="tag-list">
+        <span class="tag">Outreach templates</span>
+        <span class="tag">Priority ranked</span>
+      </div>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">🎤</div>
+      <h3>InterviewAI</h3>
+      <p>Voice-to-voice mock interviews powered by ElevenLabs Scribe v2 (STT) + TTS. Configure interviewer personality (Professional / Friendly / Tough / Technical). End-of-session report with per-question scoring and trend tracking over time.</p>
+      <div class="tag-list">
+        <span class="tag ice">ElevenLabs</span>
+        <span class="tag ice">Voice-to-voice</span>
+        <span class="tag ice">Session reports</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── BYOK ── -->
+  <div class="byok-card">
+    <div class="byok-icon">🔑</div>
+    <div>
+      <h2>Bring Your Own Key -- Full Provider Freedom</h2>
+      <p>CareerForge is model-agnostic by design. Plug in your own keys and route to any provider you already pay for. Keys are encrypted at rest via pgcrypto (AES pgp_sym_encrypt), validated against provider APIs before saving, and decrypted server-side only inside SECURITY DEFINER functions. No keys, no problem -- the platform falls back to a Gemini Flash gateway.</p>
+      <div class="provider-list">
+        <span class="provider">Claude (Sonnet / Opus / Haiku)</span>
+        <span class="provider">GPT-5 / GPT-5 mini</span>
+        <span class="provider">Gemini 3 Pro / Flash</span>
+        <span class="provider">Grok 4.1</span>
+        <span class="provider">DeepSeek</span>
+        <span class="provider">OpenRouter</span>
+        <span class="provider">Custom OpenAI-compatible</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── AGENT PIPELINE ── -->
+  <div class="pipeline-section">
+    <div class="section-label">Where It's Heading · Advisory Intelligence Layer</div>
+    <div class="pipeline-visual">
+      <p class="pipeline-label">careerforge_Telegram  →  CareerCouncil  ·  multi-agent council pipeline</p>
+      <div class="pipeline-flow">
+        <div class="pipeline-node brian">
+          <div class="node-name">🧠 Brian</div>
+          <div class="node-role">Router</div>
+        </div>
+        <div class="pipeline-arrow">→</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div class="parallel-label">parallel</div>
+          <div class="pipeline-node rita">
+            <div class="node-name">🔍 Rita</div>
+            <div class="node-role">Company Intel</div>
+          </div>
+          <div class="pipeline-node marcus">
+            <div class="node-name">🧭 Marcus</div>
+            <div class="node-role">Strategy</div>
+          </div>
+        </div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-node robin">
+          <div class="node-name">📚 Robin</div>
+          <div class="node-role">Evidence</div>
+        </div>
+        <div class="pipeline-arrow">→</div>
+        <div class="pipeline-node ryan">
+          <div class="node-name">✍️ Ryan</div>
+          <div class="node-role">Doc Output</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;">
+        <div style="font-size:13px;font-weight:600;margin-bottom:8px;">🤖 Telegram Advisory Council</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.65;">4 AI avatars (Brian, Marcus, Ryan, Rita) in a private Telegram group. Real-time chat via FastAPI, multi-step prep pipelines through n8n. Budget-tracked -- max 15 LLM calls per thread. Dockerized, Railway-deployable.</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid rgba(56,189,248,0.2);border-radius:12px;padding:20px;">
+        <div style="font-size:13px;font-weight:600;margin-bottom:8px;">🌐 CareerCouncil Web</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.65;">5-agent web interface with per-agent model tiers (Haiku for routing, Sonnet for research, Opus for resume gen). Redis artifact caching by JD fingerprint. Parallel Rita + Marcus, then Robin → Ryan with proprietary formatting pipeline. Built for the AI Interfaces Hackathon w/ Claude NYC 2026.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ROADMAP ── -->
+  <div class="roadmap">
+    <div class="section-label">Status & Trajectory</div>
+    <div class="roadmap-grid">
+      <div class="roadmap-card now">
+        <span class="roadmap-tag">Live Now</span>
+        <h3>Command Center v1</h3>
+        <ul>
+          <li>ResumeForge + CoverForge + ForgeScore</li>
+          <li>Company Intelligence with Health Score</li>
+          <li>Contact Finder with outreach templates</li>
+          <li>Voice-to-voice InterviewAI (ElevenLabs)</li>
+          <li>Kanban application pipeline tracker</li>
+          <li>BYOK for 7+ LLM providers (encrypted)</li>
+          <li>Hope -- floating voice AI assistant</li>
+        </ul>
+      </div>
+
+      <div class="roadmap-card next">
+        <span class="roadmap-tag">In Progress</span>
+        <h3>Multi-Agent Layer</h3>
+        <ul>
+          <li>Telegram Council -- 4 bots, FastAPI + n8n</li>
+          <li>CareerCouncil web -- 5-agent pipeline</li>
+          <li>Robin (evidence extractor) + Ryan (doc gen)</li>
+          <li>Redis artifact caching by JD fingerprint</li>
+          <li>Per-agent model tier routing</li>
+          <li>Session sidebar + job history</li>
+        </ul>
+      </div>
+
+      <div class="roadmap-card future">
+        <span class="roadmap-tag">Next Up</span>
+        <h3>Platform Expansion</h3>
+        <ul>
+          <li>35+ ATS auto-fill support</li>
+          <li>Automated job discovery pipeline</li>
+          <li>Daily application digest via Telegram</li>
+          <li>Follow-up reminder automation</li>
+          <li>LinkedIn message scheduling</li>
+          <li>Application analytics dashboard</li>
+        </ul>
+      </div>
+
+      <div class="roadmap-card horizon">
+        <span class="roadmap-tag">Horizon</span>
+        <h3>SaaS / Open Source</h3>
+        <ul>
+          <li>Freemium + BYOK SaaS model</li>
+          <li>Open-source community release</li>
+          <li>YC consideration pathway</li>
+          <li>n8n community workflow sharing</li>
+          <li>Interview pattern analysis (longitudinal)</li>
+          <li>Recruiter-side tooling</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TECH STACK ── -->
+  <div class="stack-section">
+    <div class="section-label">Tech Stack</div>
+    <div class="stack-pills">
+      <span class="stack-pill"><span>frontend</span>React 18 · TypeScript · Vite · Tailwind · shadcn/ui</span>
+      <span class="stack-pill"><span>backend</span>Supabase Edge Functions · FastAPI · Python 3.11</span>
+      <span class="stack-pill"><span>ai</span>Claude API · Gemini · GPT · Multi-model routing</span>
+      <span class="stack-pill"><span>voice</span>ElevenLabs STT (Scribe v2) + TTS + Conversational AI</span>
+      <span class="stack-pill"><span>scraping</span>Firecrawl (scrape + search)</span>
+      <span class="stack-pill"><span>docs</span>Proprietary doc generation pipeline (server-side)</span>
+      <span class="stack-pill"><span>agents</span>Multi-agent orchestration · n8n Pro workflows</span>
+      <span class="stack-pill"><span>infra</span>Supabase · Redis · PostgreSQL · Docker · Railway</span>
+      <span class="stack-pill"><span>security</span>pgcrypto AES · RLS · SECURITY DEFINER</span>
+      <span class="stack-pill"><span>charts</span>Recharts · D3</span>
+    </div>
+  </div>
+
+  <!-- ── CTA FOOTER ── -->
+  <div class="footer-cta">
+    <h2>Built by someone who needed this</h2>
+    <p>Not a side project. A production system actively running the job search -- 20+ applications a day, fully automated.</p>
+    <div class="footer-links">
+      <a class="footer-link primary" href="https://p-kowadkar.github.io" target="_blank">Portfolio</a>
+      <a class="footer-link secondary" href="https://github.com/p-kowadkar" target="_blank">GitHub</a>
+    </div>
+    <p class="builder-sig">
+      Pranav Kowadkar &mdash; AI Engineer · <a href="https://p-kowadkar.github.io">p-kowadkar.github.io</a><br/>
+      <span style="color:var(--subtle)">Speaking @ LLM Day NYC · March 6, 2026 · "Multi-Agent Architectures: Solving Production LLM Reliability at Scale"</span>
+    </p>
+  </div>
+
+</main>
+</body>
+</html>
